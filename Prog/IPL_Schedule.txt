@@ -1,0 +1,58 @@
+package Leetcode;
+import java.util.*;
+import java.util.LinkedList;
+
+public class IPLSchedule {
+    public static List<int[]> generateSchedule(int n) {
+        Queue<int[]> matches = new LinkedList<int[]>();
+
+        // Generate all matches (home and away)
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                matches.add(new int[]{i, j}); // i home, j away
+                matches.add(new int[]{j, i}); // j home, i away
+            }
+        }
+
+        // Shuffle initial order
+        List<int[]> shuffled = new ArrayList<>(matches);
+        Collections.shuffle(shuffled);
+        matches.clear();
+        matches.addAll(shuffled);
+
+        List<int[]> schedule = new ArrayList<>();
+        int[] lastPlayed = new int[n];
+        // Manual initialization instead of Arrays.fill
+        for (int i = 0; i < n; i++) {
+            lastPlayed[i] = -2; // no match yet
+        }
+
+        int day = 0;
+        while (!matches.isEmpty()) {
+            int[] match = matches.poll(); // safely remove from queue
+            int home = match[0], away = match[1];
+
+            if (day - lastPlayed[home] > 1 && day - lastPlayed[away] > 1) {
+                schedule.add(match);
+                lastPlayed[home] = day;
+                lastPlayed[away] = day;
+                day++;
+            } else {
+                // put back at the end of the queue
+                matches.add(match);
+            }
+        }
+        return schedule;
+    }
+
+    public static void main(String[] args) {
+        int teams = 14;
+        List<int[]> schedule = generateSchedule(teams);
+
+        int day = 1;
+        for (int[] match : schedule) {
+            System.out.println("Day " + day + ": Team " + match[0] + " vs Team " + match[1]);
+            day++;
+        }
+    }
+}

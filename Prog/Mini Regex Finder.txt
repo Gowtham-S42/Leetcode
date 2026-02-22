@@ -1,0 +1,46 @@
+package Leetcode;
+// Mini Regex Finder
+public class Z16 {
+    public static String findMatch(String text, String pattern) {
+        for (int i = 0; i < text.length(); i++) {
+            int ti = i, pi = 0;
+            StringBuilder match = new StringBuilder();
+
+            while (ti < text.length() && pi < pattern.length()) {
+                char pc = pattern.charAt(pi);
+
+                if (pi + 1 < pattern.length() && (pattern.charAt(pi + 1) == '*' || pattern.charAt(pi + 1) == '+')) {
+                    char op = pattern.charAt(pi + 1);
+                    int count = 0;
+
+                    while (ti < text.length() && text.charAt(ti) == pc) {
+                        match.append(text.charAt(ti));
+                        ti++;
+                        count++;
+                    }
+
+                    if (op == '+' && count == 0) break; // '+' requires at least one match
+
+                    pi += 2; // Skip character and operator
+                } else {
+                    if (text.charAt(ti) != pc) break;
+                    match.append(text.charAt(ti));
+                    ti++;
+                    pi++;
+                }
+            }
+
+            if (pi == pattern.length()) return match.toString(); // Full pattern matched
+        }
+
+        return ""; // No match found
+    }
+
+    public static void main(String[] args) {
+        String text = "abcfbbbacbk";
+        String pattern = "bbk*ac+";
+
+        String result = findMatch(text, pattern);
+        System.out.println("Matched substring: " + result); // Output: bbac
+    }
+}

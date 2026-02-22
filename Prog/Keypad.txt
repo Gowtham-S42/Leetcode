@@ -1,0 +1,61 @@
+package Leetcode;
+
+public class Keypad {
+
+    // Keypad mapping
+    private static final char[][] KEYPAD = {
+        {' '},              // 0 -> space
+        {},                 // 1 -> caps toggle
+        {'a','b','c'},      // 2
+        {'d','e','f'},      // 3
+        {'g','h','i'},      // 4
+        {'j','k','l'},      // 5
+        {'m','n','o'},      // 6
+        {'p','q','r','s'},  // 7
+        {'t','u','v'},      // 8
+        {'w','x','y','z'}   // 9
+    };
+
+    public static String toKeypad(String input) {
+        StringBuilder result = new StringBuilder();
+        boolean capsOn = false;
+
+        for (int idx = 0; idx < input.length(); idx++) {
+            char c = input.charAt(idx);
+
+            // Check uppercase manually (ASCII range)
+            if (c >= 'A' && c <= 'Z') {
+                if (!capsOn) {
+                    result.append("1"); // toggle caps ON
+                    capsOn = true;
+                }
+                // convert to lowercase manually
+                c = (char)(c + 32);
+            } else {
+                if (capsOn) {
+                    result.append("1"); // toggle caps OFF
+                    capsOn = false;
+                }
+            }
+
+            // Find digit for character
+            for (int digit = 0; digit < KEYPAD.length; digit++) {
+                for (int j = 0; j < KEYPAD[digit].length; j++) {
+                    if (KEYPAD[digit][j] == c) {
+                        result.append(digit);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("adg -> " + toKeypad("adg"));   // 234
+        System.out.println("Aef -> " + toKeypad("Aef"));   // 12133333
+        System.out.println("Gowtham -> " + toKeypad("GOwTham"));
+    }
+}
+

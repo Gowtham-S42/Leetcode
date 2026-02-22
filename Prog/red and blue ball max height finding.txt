@@ -1,0 +1,39 @@
+package Leetcode;
+// red and blue ball max height finding
+public class Z01 {
+
+    public static int maxHeight(int red, int blue) {
+        int height = 0;
+        boolean useRed = red >= blue; // Start with the color that has more balls
+
+        while (true) {
+            int ballsNeeded = height + 1;
+
+            if (useRed) {
+                if (red >= ballsNeeded) {
+                    red -= ballsNeeded;
+                } else {
+                    break;
+                }
+            } else {
+                if (blue >= ballsNeeded) {
+                    blue -= ballsNeeded;
+                } else {
+                    break;
+                }
+            }
+
+            height++;
+            useRed = !useRed; // Alternate color for next row
+        }
+
+        return height;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(maxHeight(2, 4)); // Output: 3
+        System.out.println(maxHeight(2, 1)); // Output: 2
+        System.out.println(maxHeight(5, 5)); // Output: 4
+        System.out.println(maxHeight(10, 0)); // Output: 4
+    }
+}

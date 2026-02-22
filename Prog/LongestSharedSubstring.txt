@@ -1,0 +1,28 @@
+public class LongestSharedSubstring {
+    public static String longestSharedSubstring(String s) {
+        int n = s.length();
+        int maxLen = 1, start = 0, currLen = 1;
+
+        for (int i = 1; i < n; i++) {
+            if (s.charAt(i) == s.charAt(i-1)) {
+                currLen++;
+            } else {
+                if (currLen > maxLen) {
+                    maxLen = currLen;
+                    start = i - currLen;
+                }
+                currLen = 1;
+            }
+        }
+        if (currLen > maxLen) {
+            maxLen = currLen;
+            start = n - currLen;
+        }
+        return s.substring(start, start + maxLen);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(longestSharedSubstring("12334567")); // Output: 333
+        System.out.println(longestSharedSubstring("111223344")); // Output: 111
+    }
+}

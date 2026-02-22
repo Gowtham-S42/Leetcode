@@ -1,0 +1,32 @@
+package Leetcode;
+
+import java.util.*;
+// Super Reduced String
+public class Z05 {
+    public static String superReducedString(String s) {
+        Stack<Character> stack = new Stack<>();
+        int count =0;
+        for (char c : s.toCharArray()) {
+        	
+            if (!stack.isEmpty() && stack.peek() == c) {
+                stack.pop(); // Remove the pair
+            } else {
+                stack.push(c); // Keep the character
+            }
+        }
+
+        // Build the result string
+        StringBuilder result = new StringBuilder();
+        for (char c : stack) {
+            result.append(c);
+        }
+        return result.length() == 0 ? "Empty String" : String.format("%15s",result); 
+      //  return result.length() == 0 ? "Empty String" : result.toString();
+    }
+
+    public static void main(String[] args) {
+        String input = "aaabccddd";
+        String output = superReducedString(input);
+        System.out.println(output); // Expected: "abd"
+    }
+}

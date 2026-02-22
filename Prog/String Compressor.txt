@@ -1,0 +1,28 @@
+package Leetcode;
+// String Compressor
+public class Z19 {
+    public static String compress(String input) {
+        if (input == null || input.isEmpty()) return input;
+
+        StringBuffer result = new StringBuffer();
+        int count = 1;
+
+        for (int i = 1; i <= input.length(); i++) {
+            if (i < input.length() && input.charAt(i) == input.charAt(i - 1)) {
+                count++;
+            } else {
+                result.append(input.charAt(i - 1));
+                if (count > 1) result.append(count);
+                count = 1;
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(compress("aabbccc"));   // Output: a2b2c3
+        System.out.println(compress("abcd"));      // Output: abcd
+        System.out.println(compress("accbbb"));    // Output: ac2b3
+    }
+}

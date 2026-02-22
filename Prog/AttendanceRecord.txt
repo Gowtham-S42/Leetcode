@@ -1,0 +1,47 @@
+package Leetcode;
+public class AttendanceRecord {
+    private static final int MOD = 1000000007;
+
+    public int checkRecord(int n) {
+        // dp[i][a][l] = count of sequences of length i with a absences and l consecutive lates
+        long[][][] dp = new long[n+1][2][3];
+        dp[0][0][0] = 1; // base case: empty string
+
+        for (int i = 0; i < n; i++) {
+            for (int a = 0; a <= 1; a++) {
+                for (int l = 0; l <= 2; l++) {
+                    long val = dp[i][a][l];
+                    if (val == 0) continue;
+
+                    // Add 'P'
+                    dp[i+1][a][0] = (dp[i+1][a][0] + val) % MOD;
+
+                    // Add 'A'
+                    if (a < 1) {
+                        dp[i+1][a+1][0] = (dp[i+1][a+1][0] + val) % MOD;
+                    }
+
+                    // Add 'L'
+                    if (l < 2) {
+                        dp[i+1][a][l+1] = (dp[i+1][a][l+1] + val) % MOD;
+                    }
+                }
+            }
+        }
+
+        long result = 0;
+        for (int a = 0; a <= 1; a++) {
+            for (int l = 0; l <= 2; l++) {
+                result = (result + dp[n][a][l]) % MOD;
+            }
+        }
+        return (int) result;
+    }
+
+    public static void main(String[] args) {
+        AttendanceRecord ar = new AttendanceRecord();
+        System.out.println(ar.checkRecord(2));     // Output: 8
+        System.out.println(ar.checkRecord(1));     // Output: 3
+        System.out.println(ar.checkRecord(10101)); // Output: 183236316
+    }
+}

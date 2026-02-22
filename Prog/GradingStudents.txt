@@ -1,0 +1,33 @@
+package Leetcode;
+
+import java.util.*;
+// GradingStudents
+public class Z04 {
+    public static List<Integer> gradingStudents(List<Integer> grades) {
+        List<Integer> result = new ArrayList<>();
+
+        for (int grade : grades) {
+            if (grade < 38) {
+                result.add(grade); // No rounding
+            } else {
+                int nextMultipleOf5 = ((grade / 5) + 1) * 5;
+                if (nextMultipleOf5 - grade < 3) {
+                    result.add(nextMultipleOf5); // Round up
+                } else {
+                    result.add(grade); // No rounding
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> grades = Arrays.asList(73, 67, 38, 33);
+        List<Integer> roundedGrades = gradingStudents(grades);
+
+        for (int grade : roundedGrades) {
+            System.out.println(grade);
+        }
+    }
+}

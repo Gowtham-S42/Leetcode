@@ -1,0 +1,42 @@
+package Leetcode;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+// Next Smallest sad number
+public class Z17 {
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        while (true) {
+            System.out.println("Enter your Input:");
+            int a = s.nextInt();
+            System.out.println("Next sad number is " + findSadNumber(a));
+        }
+    }
+
+    private static int findSadNumber(int a) {
+        int candidate = a + 1;
+        while (!isHappy(candidate)) {
+            candidate++;
+        }
+        return candidate;
+    }
+
+    private static boolean isHappy(int num) {
+        Set<Integer> seen = new HashSet<>();
+        while (num != 1 && !seen.contains(num)) {
+            seen.add(num);
+            num = sumOfDigitSquares(num);
+        }
+        return num == 1;
+    }
+
+    private static int sumOfDigitSquares(int num) {
+        int sum = 0;
+        while (num > 0) {
+            int digit = num % 10;
+            sum += digit * digit;
+            num /= 10;
+        }
+        return sum;
+    }
+}

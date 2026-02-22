@@ -1,0 +1,25 @@
+package Leetcode;
+import java.util.*;
+// length of longest substring without repeating characters
+public class Z22 {
+    public static void main(String[] args) {
+		String input="abcabcbb";
+		System.out.println(lengthofsubstring(input));
+	}
+
+	private static int lengthofsubstring(String s) {
+		// TODO Auto-generated method stub
+		Set<Character> seen=new HashSet<>();
+		int l=0,maxlen=0;
+		for(int r=0;r<s.length();r++) {
+			while(seen.contains(s.charAt(r))) {
+				seen.remove(s.charAt(l));
+				l++;
+			}
+			seen.add(s.charAt(r));
+			maxlen =Math.max(maxlen, r-l+1);
+		}
+		
+		return maxlen;
+	}
+}

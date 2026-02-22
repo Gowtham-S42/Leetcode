@@ -1,0 +1,30 @@
+package Leetcode;
+//Longest Consecutive Answers After K Changes
+public class Z20 {
+
+	public static void main(String[] args) {
+		System.out.println(maxconsecutivechar("TTFF",2));
+		System.out.println(maxconsecutivechar("TFFT",1));
+		System.out.println(maxconsecutivechar("TTFTTFTT",1));
+	}
+
+	private static int maxconsecutivechar(String answerkey, int key) {
+		return Math.max(maxconsecutiveanswer(answerkey,key,'T'),maxconsecutiveanswer(answerkey,key,'F'));
+	}
+	private static int maxconsecutiveanswer(String answerkey, int key, char target) {
+		int maxlen=0 ,left =0, changes=0;
+		for(int right=0;right<answerkey.length();right++) {
+			if(answerkey.charAt(right)!=target) {
+				changes++;
+			}
+			while(changes>key) {
+				if(answerkey.charAt(left)!=target) {
+					changes--;	
+				}
+				left++;	
+			}
+			maxlen = Math.max(maxlen, right-left+1);
+		}
+		return maxlen;
+	}
+}

@@ -1,0 +1,23 @@
+package Leetcode;
+
+public class CatMouseDP {
+    public static int minEnergy(int[] path, int c_speed, int t_limit) {
+        int n = path.length;
+        int catPos = 0, speed = c_speed, energy = 0;
+
+        for (int time=0; time<n; time++) {
+            catPos += speed;
+            energy += speed; // cost is speed used
+            if (catPos >= path[time]) return energy;
+            if ((time+1) % t_limit == 0) {
+                speed = speed/2;
+            }
+        }
+        return -1; // never catches
+    }
+
+    public static void main(String[] args) {
+        int[] path1 = {5,8,12,14,16,17,18,20};
+        System.out.println(minEnergy(path1,4,3)); // Output: 18 (energy cost)
+    }
+}

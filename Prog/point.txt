@@ -1,0 +1,1 @@
+question tasks on cpu cores solving methods 1. sort tasks by start time using bubble sort 2.track core availability times manually 3.try to assign on existing core 4. no core available assign new core give java code

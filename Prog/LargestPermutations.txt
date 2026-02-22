@@ -1,0 +1,48 @@
+package Leetcode;
+
+import java.util.*;
+
+public class LargestPermutation {
+    public static String largestPalindrome(String num) {
+        int[] freq = new int[10];
+        for (char c : num.toCharArray()) {
+            freq[c - '0']++;
+        }
+
+        // Check if palindrome is possible
+        int oddCount = 0;
+        int oddDigit = -1;
+        for (int d = 0; d < 10; d++) {
+            if (freq[d] % 2 != 0) {
+                oddCount++;
+                oddDigit = d;
+            }
+        }
+        if (oddCount > 1) return "Not possible";
+
+        // Build half of the palindrome (largest first)
+        StringBuilder half = new StringBuilder();
+        for (int d = 9; d >= 0; d--) {
+            for (int i = 0; i < freq[d] / 2; i++) {
+                half.append(d);
+            }
+        }
+
+        // Middle digit if odd
+        String middle = (oddDigit != -1) ? String.valueOf(oddDigit) : "";
+
+        // Construct full palindrome
+        StringBuilder result = new StringBuilder();
+        result.append(half);
+        result.append(middle);
+        result.append(half.reverse());
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        String input = "315572713";
+        String output = largestPalindrome(input);
+        System.out.println(output); // 753121357
+    }
+}

@@ -1,0 +1,25 @@
+package Leetcode;
+//Fibonacci pattern
+public class Z03 {
+    public static void main(String[] args) {
+        int rows = 4; // Number of rows in the pattern
+        int[] fib = new int[20]; // Array to store Fibonacci numbers
+        fib[0] = 0;
+        fib[1] = 1;
+
+        // Generate Fibonacci sequence
+        for (int i = 2; i < fib.length; i++) {
+            fib[i] = fib[i - 1] + fib[i - 2];
+        }
+
+        int index = 0;
+        // Print the pattern
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(fib[index] + " ");
+                index++;
+            }
+            System.out.println();
+        }
+    }
+}

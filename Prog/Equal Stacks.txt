@@ -1,0 +1,51 @@
+package Leetcode;
+
+import java.util.*;
+// Equal Stacks
+public class Z07 {
+     public static int equalStacks(List<Integer> h1, List<Integer> h2, List<Integer> h3) {
+        Stack<Integer> s1 = buildStack(h1);
+        Stack<Integer> s2 = buildStack(h2);
+        Stack<Integer> s3 = buildStack(h3);
+
+        while (true) {
+            int height1 = s1.isEmpty() ? 0 : s1.peek();
+            int height2 = s2.isEmpty() ? 0 : s2.peek();
+            int height3 = s3.isEmpty() ? 0 : s3.peek();
+
+            // If all heights are equal, return the height
+            if (height1 == height2 && height2 == height3) {
+                return height1;
+            }
+
+            // Remove from the tallest stack
+            if (height1 >= height2 && height1 >= height3) {
+                s1.pop();
+            } else if (height2 >= height1 && height2 >= height3) {
+                s2.pop();
+            } else {
+                s3.pop();
+            }
+        }
+    }
+ // Helper to build a stack with cumulative heights
+    private static Stack<Integer> buildStack(List<Integer> heights) {
+        Stack<Integer> stack = new Stack<>();
+        int total = 0;
+        // Build from bottom to top
+        for (int i = heights.size() - 1; i >= 0; i--) {
+            total += heights.get(i);
+            stack.push(total);
+        }
+        return stack;
+    }
+    public static void main(String[] args) {
+    	System.out.println("Your output is:");
+        List<Integer> h1 = Arrays.asList(3, 2, 1, 1, 1);
+        List<Integer> h2 = Arrays.asList(4, 3, 2);
+        List<Integer> h3 = Arrays.asList(1, 1, 4, 1);
+
+        int result = equalStacks(h1, h2, h3);
+        System.out.println(result); // Output: 5
+    }
+}

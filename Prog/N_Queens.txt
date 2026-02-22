@@ -1,0 +1,54 @@
+package Leetcode;
+public class NQueensArray {
+    int N;
+
+    public NQueensArray(int n) {
+        this.N = n;
+    }
+
+    // Check if placing queen at row, col is safe
+    private boolean isSafe(int[] queens, int row, int col) {
+        for (int i = 0; i < row; i++) {
+            int placedCol = queens[i];
+            if (placedCol == col || Math.abs(placedCol - col) == Math.abs(i - row)) {
+                return false;
+                		
+            }
+        }
+        return true;
+    }
+
+    // Backtracking function
+    private void solve(int row, int[] queens) {
+        if (row == N) {
+            // Found a solution → print it
+            System.out.print("[");
+            for (int i = 0; i < N; i++) {
+                System.out.print(queens[i] + (i == N - 1 ? "" : ", "));
+            }
+            System.out.print("]");
+            return;
+        }
+
+        for (int col = 1; col <= N; col++) { // 1-based columns
+            if (isSafe(queens, row, col)) {
+                queens[row] = col;
+                solve(row + 1, queens);
+            }
+        }
+    }
+
+    public void solveNQueens() {
+        int[] queens = new int[N];
+        System.out.print("[");
+        solve(0, queens);
+        System.out.print("]");
+    }
+
+    public static void main(String[] args) {
+        int n = 4;
+        NQueensArray nq = new NQueensArray(n);
+        nq.solveNQueens();
+        
+    }
+}

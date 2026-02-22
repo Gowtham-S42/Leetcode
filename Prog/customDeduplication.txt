@@ -1,0 +1,46 @@
+package Leetcode;
+//customDeduplication
+public class Z14 {
+    public static void main(String[] args) {
+        String input = "a1b2c34c3b2cb3a1d";
+        char[] arr = input.toCharArray();
+        int n = arr.length;
+
+        // Step 1: Mark digits to keep only the last occurrence
+        for (int i = 0; i < n; i++) {
+            if (arr[i] >= '0' && arr[i] <= '9') {
+                for (int j = i + 1; j < n; j++) {
+                    if (arr[j] == arr[i]) {
+                        arr[i] = '\0'; // Mark earlier digit for removal
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Step 2: Mark alphabets to keep only the first occurrence
+        for (int i = 0; i < n; i++) {
+            if (arr[i] >= 'a' && arr[i] <= 'z') {
+                for (int j = 0; j < i; j++) {
+                    if (arr[j] == arr[i]) {
+                        arr[i] = '\0'; // Mark duplicate alphabet for removal
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Step 3: Compact the array in-place
+        int write = 0;
+        for (int read = 0; read < n; read++) {
+            if (arr[read] != '\0') {
+                arr[write++] = arr[read];
+            }
+        }
+
+        // Step 4: Print the result
+        for (int i = 0; i < write; i++) {
+            System.out.print(arr[i]);
+        }
+    }
+}

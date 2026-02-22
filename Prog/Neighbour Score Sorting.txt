@@ -1,0 +1,93 @@
+package Leetcode;
+//Neighbour Score Sorting
+public class Z24{
+
+    // Helper method: check if two numbers share at least one digit
+    private static boolean hasCommonDigit(int a, int b) {
+        boolean[] digits = new boolean[10];
+        while (a > 0) {
+            digits[a % 10] = true;
+            a /= 10;
+        }
+        while (b > 0) {
+            if (digits[b % 10]) return true;
+            b /= 10;
+        }
+        return false;
+    }
+
+    // Compute neighbour scores for each element
+    private static int[] computeNeighbourScores(int[] arr) {
+        int n = arr.length;
+        int[] scores = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            int score = 0;
+            // Left neighbour
+            if (i > 0 && hasCommonDigit(arr[i], arr[i - 1])) {
+                score += Math.abs(arr[i] - arr[i - 1]);
+            }
+            // Right neighbour
+            if (i < n - 1 && hasCommonDigit(arr[i], arr[i + 1])) {
+                score += Math.abs(arr[i] - arr[i + 1]);
+            }
+            scores[i] = score;
+        }
+        return scores;
+    }
+
+    // Manual bubble sort based on neighbour score
+    public static int[] sortByNeighbourScore(int[] arr) {
+        int n = arr.length;
+        int[] scores = computeNeighbourScores(arr);
+
+        // indices to preserve original order
+        int[] indices = new int[n];
+        for (int i = 0; i < n; i++) indices[i] = i;
+
+        // Bubble sort
+        for (int pass = 0; pass < n - 1; pass++) {
+            for (int j = 0; j < n - pass - 1; j++) {
+                int i1 = indices[j];
+                int i2 = indices[j + 1];
+
+                // Compare by score first, then by original index
+                if (scores[i1] < scores[i2] ||
+                   (scores[i1] == scores[i2] && i1 > i2)) {
+                    // swap
+                    int temp = indices[j];
+                    indices[j] = indices[j + 1];
+                    indices[j + 1] = temp;
+                }
+            }
+        }
+
+        // Build result
+        int[] result = new int[n];
+        for (int k = 0; k < n; k++) {
+            result[k] = arr[indices[k]];
+        }
+        return result;
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+        int[] input1 = {23, 12, 45, 25, 56};
+        int[] sorted1 = sortByNeighbourScore(input1);
+        System.out.print("Sorted Output 1: ");
+        for (int x : sorted1) System.out.print(x + " ");
+        System.out.println(); // Expected: 25 56 45 23 12
+
+        int[] input2 = {13, 31, 22, 44, 41};
+        int[] sorted2 = sortByNeighbourScore(input2);
+        System.out.print("Sorted Output 2: ");
+        for (int x : sorted2) System.out.print(x + " ");
+        System.out.println(); // Expected: 13 31 44 41 22
+
+        int[] input3 = {18, 21, 48, 7, 87};
+        int[] sorted3 = sortByNeighbourScore(input3);
+        System.out.print("Sorted Output 3: ");
+        for (int x : sorted3) System.out.print(x + " ");
+        System.out.println(); // Expected: 87 7 18 21 48
+    }
+}

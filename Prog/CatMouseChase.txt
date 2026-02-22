@@ -1,0 +1,42 @@
+package Leetcode;
+public class CatMouseChase {
+
+    public static int catchMouse(int[] path, int c_speed, int t_limit) {
+        int catPos = 0;
+        int speed = c_speed;
+        if (catPos >= path[0]) {
+            return 0;
+        }
+        for (int time = 0; time < path.length; time++) {
+            // Cat moves forward at current speed (except at time 0, it starts at 0)
+            if (time > 0) {
+                catPos += speed;
+            }
+
+            // Check if cat has caught up
+            if (catPos >= path[time]) {
+                return time;
+            }
+
+            // After every t_limit seconds, cat gets tired and speed halves
+            if (time > 0 && time % t_limit == 0) {
+                speed = speed / 2;
+            }
+        }
+
+        return -1; // Cat never catches up
+    }
+
+    public static void main(String[] args) {
+    	int[] path = {0, 8, 12, 14, 16, 17, 18, 20};
+        System.out.println(catchMouse(path, 2, 2));
+        int[] path1 = {5, 8, 12, 14, 16, 17, 18, 20};
+        System.out.println(catchMouse(path1, 4, 3)); // Output: 6
+
+        int[] path2 = {2, 5, 7, 9, 13, 15, 19};
+        System.out.println(catchMouse(path2, 2, 3)); // Output: -1
+
+        int[] path3 = {2, 4, 5, 6, 8, 11, 13};
+        System.out.println(catchMouse(path3, 3, 2)); // Output: 2
+    }
+}
